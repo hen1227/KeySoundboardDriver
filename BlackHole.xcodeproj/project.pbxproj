@@ -17,6 +17,8 @@
 		3D8966462849C318002AB3F0 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 03FDCADB233FAE0500101681 /* LICENSE */; };
 		3D8966472849C318002AB3F0 /* BlackHole.icns in Resources */ = {isa = PBXBuildFile; fileRef = 03FDCAD9233F235500101681 /* BlackHole.icns */; };
 		3D8966482849C318002AB3F0 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 039FF2572341B6E800400D7A /* CHANGELOG.md */; };
+		3DAF92B337B4990F61C3E075 /* uninstall.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF9B00C556EFE39DBF018E /* uninstall.sh */; };
+		3DAF9BFE64AF2A4EA0BC52D8 /* create_uninstaller.sh in Resources */ = {isa = PBXBuildFile; fileRef = 3DAF977766E2E50B3CD131A8 /* create_uninstaller.sh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,6 +55,8 @@
 		3D89664D2849C318002AB3F0 /* BlackHole.driver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlackHole.driver; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D8966882849D45F002AB3F0 /* postinstall */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = postinstall; sourceTree = "<group>"; };
 		3D8966892849D45F002AB3F0 /* preinstall */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = preinstall; sourceTree = "<group>"; };
+		3DAF977766E2E50B3CD131A8 /* create_uninstaller.sh */ = {isa = PBXFileReference; lastKnownFileType = file.sh; path = create_uninstaller.sh; sourceTree = "<group>"; };
+		3DAF9B00C556EFE39DBF018E /* uninstall.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +134,8 @@
 				3D083806284A7BB000C69403 /* conclusion.html */,
 				3D083807284A7BB000C69403 /* requirements.xml */,
 				3D083808284A7BB000C69403 /* welcome.html */,
+				3DAF9B00C556EFE39DBF018E /* uninstall.sh */,
+				3DAF977766E2E50B3CD131A8 /* create_uninstaller.sh */,
 			);
 			path = Installer;
 			sourceTree = "<group>";
@@ -198,11 +204,11 @@
 				TargetAttributes = {
 					3D88D48B285BBA5800629399 = {
 						CreatedOnToolsVersion = 13.4;
-						DevelopmentTeam = Q5C99V536K;
+						DevelopmentTeam = 5BHAWQJGY5;
 						ProvisioningStyle = Automatic;
 					};
 					3D89663D2849C318002AB3F0 = {
-						DevelopmentTeam = Q5C99V536K;
+						DevelopmentTeam = 5BHAWQJGY5;
 					};
 				};
 			};
@@ -235,6 +241,8 @@
 				3D8966482849C318002AB3F0 /* CHANGELOG.md in Resources */,
 				3D083818284A7F1200C69403 /* VERSION in Resources */,
 				3D083819284A7F1500C69403 /* README.md in Resources */,
+				3DAF92B337B4990F61C3E075 /* uninstall.sh in Resources */,
+				3DAF9BFE64AF2A4EA0BC52D8 /* create_uninstaller.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +316,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -361,6 +370,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -415,6 +425,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -436,7 +447,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = Q5C99V536K;
+				DEVELOPMENT_TEAM = 5BHAWQJGY5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -466,7 +477,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = Q5C99V536K;
+				DEVELOPMENT_TEAM = 5BHAWQJGY5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -500,7 +511,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = Q5C99V536K;
+				DEVELOPMENT_TEAM = 5BHAWQJGY5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -522,16 +533,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				DEVELOPMENT_TEAM = Q5C99V536K;
+				DEVELOPMENT_TEAM = 5BHAWQJGY5;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"DEBUG=0",
 				);
 				INFOPLIST_FILE = BlackHole/BlackHole.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Audio/Plug-Ins/HAL";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = audio.existential.BlackHole;
+				PRODUCT_BUNDLE_IDENTIFIER = com.henhen1227.KeySoundboard.Driver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = driver;
 			};
@@ -542,16 +553,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				DEVELOPMENT_TEAM = Q5C99V536K;
+				DEVELOPMENT_TEAM = 5BHAWQJGY5;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"DEBUG=1",
 				);
 				INFOPLIST_FILE = BlackHole/BlackHole.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Audio/Plug-Ins/HAL";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = audio.existential.BlackHole;
+				PRODUCT_BUNDLE_IDENTIFIER = com.henhen1227.KeySoundboard.Driver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = driver;
 			};
@@ -562,16 +573,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				DEVELOPMENT_TEAM = Q5C99V536K;
+				DEVELOPMENT_TEAM = 5BHAWQJGY5;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"DEBUG=1",
 				);
 				INFOPLIST_FILE = BlackHole/BlackHole.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Audio/Plug-Ins/HAL";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 0.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = audio.existential.BlackHole;
+				PRODUCT_BUNDLE_IDENTIFIER = com.henhen1227.KeySoundboard.Driver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = driver;
 			};

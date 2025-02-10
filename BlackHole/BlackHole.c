@@ -150,15 +150,15 @@ struct ObjectInfo {
 
 
 #ifndef kDriver_Name
-#define                             kDriver_Name                        "BlackHole"
+#define                             kDriver_Name                        "KeySoundboard"
 #endif
 
 #ifndef kPlugIn_BundleID
-#define                             kPlugIn_BundleID                    "audio.existential.BlackHole2ch"
+#define                             kPlugIn_BundleID                    "com.henhen1227.KeySoundboard.Driver"
 #endif
 
 #ifndef kPlugIn_Icon
-#define                             kPlugIn_Icon                        "BlackHole.icns"
+#define                             kPlugIn_Icon                        "KeySoundboard.icns"
 #endif
 
 #ifndef kHas_Driver_Name_Format
@@ -174,7 +174,7 @@ struct ObjectInfo {
 
 
 #ifndef kDevice_Name
-#define                             kDevice_Name                        kDriver_Name " %ich"
+#define                             kDevice_Name                        kDriver_Name
 #endif
 
 #ifndef kDevice2_Name
