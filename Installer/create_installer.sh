@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
+set -euo pipefail
 
 # Creates installer for different channel versions.
 # Run this script from the local BlackHole repo's root directory.
@@ -7,11 +8,9 @@
 #   chmod +x create_installer.sh
 
 driverName="KeySoundboard"
-driverFileName="BlackHole"
-devTeamID="5BHAWQJGY5" # Replace this with your own developer team ID
-devTeamProfile="Developer ID Installer: Henry Abrahamsen (5BHAWQJGY5)"
+devTeamID="5BHAWQJGY5" # ⚠️ Replace this with your own developer team ID
 notarize=true # To skip notarization, set this to false
-notarizeProfile="notarize" # Replace this with your own notarytool keychain profile name
+notarizeProfile="notarize" # ⚠️ Replace this with your own notarytool keychain profile name
 
 ############################################################################
 
@@ -26,21 +25,17 @@ fi
 
 version=`cat VERSION`
 
-# Version Validation
+#Version Validation6
 if [ -z "$version" ]; then
     echo "Could not find version number. VERSION file is missing from repo root or is empty."
     exit 1
 fi
 
-for channels in 2; do # Modify as needed for other channel counts like 16, 64, 128, 256
+for channels in 2; do # 16 64 128 256; do
     # Env
     ch=$channels"ch"
-    driverVariantName=$driverName
-    bundleID="com.henhen1227.KeySounboard.Driver"
-
-    # Clean build directory
-    rm -rf build/
-    mkdir -p build/
+    driverVartiantName=$driverName
+    bundleID="com.henhen1227.KeySoundboard.Driver"
 
     # Build
     xcodebuild \
@@ -53,81 +48,83 @@ for channels in 2; do # Modify as needed for other channel counts like 16, 64, 1
       kPlugIn_BundleID=\"'$bundleID'\"
       kDriver_Name=\"'$driverName'\"'
 
-    # Check if build was successful
-    if [ ! -d "build/$driverFileName.driver" ]; then
-        echo "Build failed: $driverFileName.driver not found."
-        exit 1
-    fi
+    # Generate a new UUID
+    uuid=$(uuidgen)
+    awk '{sub(/e395c745-4eea-4d94-bb92-46224221047c/,"'$uuid'")}1' build/BlackHole.driver/Contents/Info.plist > Temp.plist
+    mv Temp.plist build/BlackHole.driver/Contents/Info.plist
 
-#   pause 'Press [Enter] key to continue...'
-    read -r -p "Press enter to continue"
+    mkdir Installer/root
+    driverBundleName=$driverVartiantName.driver
+    mv build/BlackHole.driver Installer/root/$driverBundleName
+    rm -r build
 
-
-    # Sign the built driver
+    # Sign
     codesign \
       --force \
       --deep \
       --options runtime \
       --sign $devTeamID \
-      --timestamp \
-      build/$driverFileName.driver
+      Installer/root/$driverBundleName
 
-    # Package
+    # Create package with pkgbuild
+    chmod 755 Installer/Scripts/preinstall
+    chmod 755 Installer/Scripts/postinstall
+
     pkgbuild \
-      --sign "$devTeamProfile" \
-      --root build/$driverFileName.driver \
+      --sign $devTeamID \
+      --root Installer/root \
       --scripts Installer/Scripts \
-      --identifier $bundleID \
-      --version "$version" \
-      --install-location /Library/Audio/Plug-Ins/HAL/"$driverName".driver \
-      build/"$driverVariantName".pkg
+      --install-location /Library/Audio/Plug-Ins/HAL \
+      "Installer/$driverName.pkg"
+    rm -r Installer/root
 
-    # Create distribution XML for productbuild
-    distributionXML=distribution.xml
+    # Create installer with productbuild
+    cd Installer
+
     echo "<?xml version=\"1.0\" encoding='utf-8'?>
     <installer-gui-script minSpecVersion='2'>
-        <title>$driverVariantName: Audio Loopback Driver ($ch) $version</title>
+        <title>$driverName: Audio Loopback Driver ($ch) $version</title>
         <welcome file='welcome.html'/>
         <license file='../LICENSE'/>
         <conclusion file='conclusion.html'/>
-        <options customize='never' require-scripts='false' hostArchitectures='x86_64,arm64'/>
+        <domains enable_anywhere='false' enable_currentUserHome='false' enable_localSystem='true'/>
         <pkg-ref id=\"$bundleID\"/>
+        <options customize='never' require-scripts='false' hostArchitectures='x86_64,arm64'/>
+        <volume-check>
+            <allowed-os-versions>
+                <os-version min='10.10'/>
+            </allowed-os-versions>
+        </volume-check>
         <choices-outline>
             <line choice=\"$bundleID\"/>
         </choices-outline>
-        <choice id=\"$bundleID\" visible='true' title=\"$driverVariantName $ch\" start_selected='true'>
+        <choice id=\"$bundleID\" visible='true' title=\"$driverName $ch\" start_selected='true'>
             <pkg-ref id=\"$bundleID\"/>
         </choice>
-        <pkg-ref id=\"$bundleID\" version=\"$version\" onConclusion='none'>build/$driverVariantName.pkg</pkg-ref>
-    </installer-gui-script>" > $distributionXML
+        <pkg-ref id=\"$bundleID\" version=\"$version\" onConclusion='RequireRestart'>$driverName.pkg</pkg-ref>
+    </installer-gui-script>" >> distribution.xml
 
-    # Build installer package
-    installerPkgName="$driverVariantName-$version.pkg"
-
+    # Build
+    installerPkgName="$driverVartiantName-$version.pkg"
     productbuild \
-      --sign "$devTeamProfile" \
-      --distribution $distributionXML \
-      --resources Installer/ \
-      --package-path build \
-      "$installerPkgName"  # Corrected output file specification
-
-    # Check if the installer package was created
-    if [ ! -f "$installerPkgName" ]; then
-        echo "Error: Installer package not found."
-        exit 1
-    fi
-
-    rm $distributionXML
+      --sign $devTeamID \
+      --distribution distribution.xml \
+      --resources . \
+      --package-path $driverName.pkg $installerPkgName
+    rm distribution.xml
+    rm -f $driverName.pkg
 
     # Notarize and Staple
     if [ "$notarize" = true ]; then
         xcrun \
-          notarytool submit "$installerPkgName" \
+          notarytool submit $installerPkgName \
           --team-id $devTeamID \
           --progress \
           --wait \
           --keychain-profile $notarizeProfile
 
-        xcrun stapler staple "$installerPkgName"
+        xcrun stapler staple $installerPkgName
     fi
+
+    cd ..
 done
